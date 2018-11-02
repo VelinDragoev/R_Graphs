@@ -43,6 +43,30 @@ ggplot(mpg, aes(x = class, y = cty))+
 
 
 ```{r}
+summary(mpg$cty)
+summary(mpg$hwy)
+filter(mpg, cty == 35, hwy == 44)
+```
+We can see that the model with the highest CMPG and HMPG is the 1999 Volkswagen Beetle. It would be interesting to see which manufacturer has the modesl with the highest CMPG and HMPG
 
+```{r}
+data <- mpg
+    ggplot(mpg)+
+    geom_boxplot(aes(x = " ", y = cty, group = 1, fill = manufacturer), position = "dodge",       show.legend = FALSE)+
+    labs(x = " ", y = "City MPG")+
+    facet_wrap(~manufacturer, nrow = 1)+
+    coord_cartesian(ylim = c(0, 30))
+  ggplot(mpg)+
+    geom_boxplot(aes(x = " ", y = hwy, group = 1, fill = manufacturer), position = "dodge", show.legend = FALSE)+
+    labs(x = " ", y = "Highway MPG")+
+    facet_wrap(~manufacturer, nrow = 1)+
+    coord_cartesian(ylim = c(10, 35))  
+```
+```{r}
+ggplot(mpg)+
+  geom_boxplot(aes(x = " ", y = hwy, group = 1, fill = manufacturer), position = "dodge", show.legend = FALSE)+
+  labs(x = " ", y = "Highway MPG")+
+  facet_wrap(~manufacturer, nrow = 1)+
+  coord_cartesian(ylim = c(10, 35))
 ```
 
