@@ -1,0 +1,48 @@
+The purpose of this report is to examine the general features and inter-dependancies of the MPG dataset. The dataset itself was compiled by the EPA, and it contains various characteristics about car models released between 1999 and 2008.
+
+First, we need to see what types of vehicles we have in our dataset.
+```{r}
+ggplot(mpg)+
+  geom_bar(aes(x = factor(1), fill = class), width = 1)+
+  labs(x = " ", y = "Vehicle Classes")+
+  coord_polar(theta = "y")+
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank())
+```
+
+It seems that the dataset is very diverse. It seems that SUVs are a bit more numerous than the other classes. 
+Now, we'll try to determine which car class achieves the highest miles per gallon (MPG). In order to do that, we first need to see which variables we should use - City MPG (CMPG), or Highway MPG (HMPG)? 
+```{r}
+ggplot(mpg, aes(x = cty, y = hwy))+
+  geom_smooth()
+cor(x = mpg$cty, y = mpg$hwy, use = "everything")
+```
+The graph above shows that high CMPG correspond with high HMPG, and vice versa. Due to the strong correlation between these variables, future graphs will make use of CMPG. 
+```{r}
+ggplot(data = mpg)+
+  geom_point(mapping = aes(x = displ, y = cty, color = class), position = "jitter",)+
+  labs(x = "Displacement", y = "City MPG", title = "City MPG by car class")
+```
+We can clearly see that lower engine size (displacement) is strongly  correlated with a high MPG. We can get a better look at this relationship if we plot each class of car to a different plot.
+
+```{r}
+ggplot(mpg)+
+  geom_point(aes(x = displ, y = cty), color = "blue")+
+  labs(x = "Displacement", y = "City MPG", title = "City MPG by car class")+
+  facet_wrap(~class, nrow = 2)
+```
+
+Here we see that compact, subcompact and midsize cars have the best overall MPG, while 2-seaters have the worst MPG out of all classes. This makes sense, since most sports cars (which have the largest engines) are 2-seaters.
+
+The same information can be expressed with a boxplot (shown below).
+```{r}
+ggplot(mpg, aes(x = class, y = cty))+
+  geom_boxplot()
+```
+
+
+```{r}
+
+```
+
